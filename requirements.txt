@@ -1,0 +1,12 @@
+pydantic
+dotenv
+langchain
+langgraph
+langchain-redis
+redis
+langchain-openai
+langchain-huggingface
+redisvl
+sentence-transformers
+chromadb
+python-docx
