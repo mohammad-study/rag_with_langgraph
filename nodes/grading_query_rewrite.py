@@ -1,8 +1,8 @@
 from langchain_core.prompts import ChatPromptTemplate
 
 from state import GraphState
-from rag_with_langgraph.prompts.grading_query_rewrite import query_rewrite_prompt
-from rag_with_langgraph.models.grading_query_rewrite import QueryRewriteResponse
+from prompts.grading_query_rewrite import query_rewrite_prompt
+from models.grading_query_rewrite import QueryRewriteResponse
 from services.llm import llm
 
 
@@ -18,14 +18,14 @@ def rewrite_query(state: GraphState):
 
     response = query_rewrite_chain.invoke(
         {
-            "chat_history": state["chat_history"],
-            "question": state["standalone_question"],
+            "chat_history": state.chat_history,
+            "question": state.standalone_question,
         }
     )
 
-    state["rewritten_question"] = response.rewritten_question
-    state["retrieved_documents"] = []
+    state.rewritten_question = response.rewritten_question
+    state.retrieved_documents = []
 
-    state["document_rewrite_attempt"] += 1
+    state.document_rewrite_attempt += 1
 
     return state

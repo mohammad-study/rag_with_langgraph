@@ -82,9 +82,9 @@ rag_workflow.add_conditional_edges(
     }
 )
 
+
 rag_workflow.add_edge("direct_generate", "save_history")
 rag_workflow.add_edge("retrieve_documents", "grade_documents")
-
 
 rag_workflow.add_conditional_edges(
     "grade_documents",
@@ -112,16 +112,15 @@ rag_workflow.add_conditional_edges(
 
 rag_workflow.add_edge("rewrite_for_grounding", "retrieve_documents")
 rag_workflow.add_edge("fallback", "save_history")
+
 rag_workflow.add_edge("save_history", "update_cache")
 rag_workflow.add_edge("update_cache", END)
-
-
 
 graph = rag_workflow.compile()
 
 result = graph.invoke({
-    "question": "What is company policy about long leave?",
-    "session_id": "3"
+    "question": "What is company policy about workplace respect",
+    "session_id": "8"
 })
 
 print(result)

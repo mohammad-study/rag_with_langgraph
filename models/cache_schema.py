@@ -1,7 +1,8 @@
 CACHE_SCHEMA = {
     "index": {
         "name": "semantic_cache",
-        "prefix": "cache"
+        "prefix": "cache",
+        "storage_type": "json"
     },
     "fields": [
         {

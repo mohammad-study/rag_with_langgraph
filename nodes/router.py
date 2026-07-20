@@ -15,12 +15,12 @@ def route_query(state: GraphState):
 
     response = router_chain.invoke(
         {
-            "question": state["standalone_question"]
+            "question": state.standalone_question
         }
     )
 
 
-    state["router"] = response.route
+    state.router = response.route
 
     return state
 

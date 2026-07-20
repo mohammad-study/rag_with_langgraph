@@ -20,23 +20,23 @@ def grade_documents(state: GraphState):
     document_grader_chain = prompt | llm_with_output
 
     docs = "\n\n".join(
-        doc["chunk"]
-        for doc in state["retrieved_documents"]
+        doc.chunk
+        for doc in state.retrieved_documents
     )
 
     response = document_grader_chain.invoke(
         {
-            "question": state["standalone_question"],
+            "question": state.standalone_question,
             "documents": docs,
         }
     )
 
     if response.relevant:
-        state["documents_relevant"] = response.relevant
+        state.documents_relevant = response.relevant
 
     else:
-        state["documents_relevant"] = response.relevant
-        state["grounded"] = False
-        state["hallucination_reason"] = None
+        state.documents_relevant = response.relevant
+        state.grounded = False
+        state.hallucination_reason = None
 
     return state

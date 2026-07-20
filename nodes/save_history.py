@@ -6,11 +6,11 @@ def save_history(state: GraphState):
 
     history_service.save_conversation(
 
-        session_id=state["session_id"],
+        session_id=state.session_id,
 
-        question=state["question"],
+        question=state.question,
 
-        answer=state["generation"]
+        answer=state.generation
 
     )
 

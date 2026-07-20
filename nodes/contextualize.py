@@ -24,13 +24,11 @@ def contextualize_question(state: GraphState):
 
     result = contextualize_chain.invoke(
         {
-            "chat_history": state["chat_history"],
-            "question": state["question"],
+            "chat_history": state.chat_history,
+            "question": state.question,
         }
     )
 
-    state["standalone_question"] = (
-        result.standalone_question
-    )
+    state.standalone_question = result.standalone_question
 
     return state

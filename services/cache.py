@@ -1,3 +1,4 @@
+import traceback
 from uuid import uuid4
 
 from redisvl.index import SearchIndex
@@ -17,7 +18,7 @@ class CacheService:
             redis_url=REDIS_URL
         )
 
-        self.index.create(overwrite=False)
+        self.index.create(overwrite=True)
 
     def lookup(
         self,
@@ -44,27 +45,29 @@ class CacheService:
 
         result = results[0]
 
-        if result["vector_distance"] > (1 - threshold):
+        distance = float(result["vector_distance"])
+
+        if distance > (1 - threshold):
             return None
 
         return result["answer"]
 
-    def save(
-        self,
-        question: str,
-        answer: str,
-    ):
-
+    def save(self, question: str, answer: str):
         embedding = embedding_service.embed(question)
 
-        self.index.load([
-            {
-                "id": str(uuid4()),
-                "question": question,
-                "answer": answer,
-                "embedding": embedding,
-            }
-        ])
+        doc = {
+            "id": str(uuid4()),
+            "question": question,
+            "answer": answer,
+            "embedding": embedding,
+        }
+
+        try:
+            self.index.load([doc])
+        except Exception as e:
+            traceback.print_exc()
+            print("Document:", doc)
+            raise
 
 
 cache_service = CacheService()

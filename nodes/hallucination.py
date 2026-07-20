@@ -20,19 +20,19 @@ def hallucination_check(state: GraphState):
     hallucination_chain = prompt | structured_llm
 
     documents = "\n\n".join(
-        doc["chunk"]
-        for doc in state["retrieved_documents"]
+        doc.chunk
+        for doc in state.retrieved_documents
     )
 
     response = hallucination_chain.invoke(
         {
-            "question": state["standalone_question"],
+            "question": state.standalone_question,
             "documents": documents,
-            "answer": state["generation"],
+            "answer": state.generation,
         }
     )
 
-    state["grounded"] = response.grounded
-    state["hallucination_reason"] = response.reason
+    state.grounded = response.grounded
+    state.hallucination_reason = response.reason
 
     return state

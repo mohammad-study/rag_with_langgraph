@@ -21,24 +21,24 @@ def generate_answer(state: GraphState):
 
     context = "\n\n".join(
         f"""
-    Section: {doc["section"]}
+    Section: {doc.section}
 
-    Subsection: {doc["subsection"]}
+    Subsection: {doc.subsection}
 
     Content:
-    {doc["chunk"]}
+    {doc.chunk}
     """
-            for doc in state["retrieved_documents"]
+            for doc in state.retrieved_documents
         )
 
     response = generation_chain.invoke(
         {
-            "chat_history": state["chat_history"],
+            "chat_history": state.chat_history,
             "context": context,
-            "question": state["standalone_question"],
+            "question": state.standalone_question,
         }
     )
 
-    state["generation"] = response.answer
+    state.generation = response.answer
 
     return state

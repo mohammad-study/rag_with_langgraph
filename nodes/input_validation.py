@@ -17,17 +17,17 @@ def input_guardrails(state: GraphState):
 
     response = guardrail_chain.invoke(
         {
-            "question": state["question"]
+            "question": state.question,
         }
     )
 
     history_service.add_user_message(
-         state["session_id"],
-         state["question"]
+         state.session_id,
+         state.question
     )
 
-    state["is_valid"] = response.is_safe
-    state["validation_error"] = response.reason
+    state.is_valid = response.is_safe
+    state.validation_error = response.reason
 
     return state
 

@@ -22,11 +22,11 @@ def direct_generate(state: GraphState):
 
     response = direct_generation_chain.invoke(
         {
-            "question": state["standalone_question"]
+            "question": state.standalone_question
         }
     )
 
-    state["generation"] = response.answer
-    state["cacheable"] = False
+    state.generation = response.answer
+    state.cacheable = False
 
     return state

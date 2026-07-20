@@ -2,6 +2,7 @@ from sentence_transformers import SentenceTransformer
 import chromadb
 
 from .utils import query_knowledge_base
+from .chroma import collection
 
 class RetrievalService:
 
@@ -31,13 +32,7 @@ class RetrievalService:
         )
     
 
-client = chromadb.PersistentClient(
-    path="./chroma_db"
-)
 
-collection = client.get_or_create_collection(
-    name="company_documents"   # use your actual collection name
-)
 
 retrieval_service = RetrievalService(
     model=SentenceTransformer("all-MiniLM-L6-v2"),

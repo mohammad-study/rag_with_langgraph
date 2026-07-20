@@ -22,15 +22,15 @@ def rewrite_for_grounding(state: GraphState):
 
     response = grounding_rewrite_chain.invoke(
         {
-            "question": state["standalone_question"],
-            "answer": state["generation"],
-            "hallucination_reason": state["hallucination_reason"],
-            "chat_history": state["chat_history"],
+            "question": state.standalone_question,
+            "answer": state.generation,
+            "hallucination_reason": state.hallucination_reason,
+            "chat_history": state.chat_history,
         }
     )
 
-    state["retrieved_documents"] = []
+    state.retrieved_documents = []
 
-    state["grounding_rewrite_attempt"] += 1
+    state.grounding_rewrite_attempt += 1
 
     return state
