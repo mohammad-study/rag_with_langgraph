@@ -3,13 +3,12 @@ from sentence_transformers import SentenceTransformer
 
 from .utils import add_to_chroma
 from services.chroma import collection
+from config import config, abs_path
 
-
-CHROMA_PATH = "./chroma_db"
-process_folder = "C:\\Users\\hassa\\Documents\\Data_Engineering_Project\\rag_with_langgraph\\data\\processed"
+process_folder = abs_path(config["embedding"]["process_folder"])
 
 # Embedding model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer(config["embedding"]["model_name"])
 
 
 # Process documents and add to Chroma

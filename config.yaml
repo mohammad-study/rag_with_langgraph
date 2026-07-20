@@ -1,0 +1,33 @@
+ingestion:
+  raw_folder: data/raw
+  process_folder: data/processed
+
+embedding:
+  process_folder: data/processed
+  model_name: all-MiniLM-L6-v2
+
+services:
+  embedding_model_name: BAAI/bge-small-en-v1.5
+
+chroma:
+  path: chroma_db
+  collection_name: company_documents
+
+redis:
+  url: redis://localhost:6379
+
+llm:
+  provider: huggingface
+  model: Qwen/Qwen2.5-7B-Instruct
+  base_url: https://router.huggingface.co/v1
+  api_key_env: HF_TOKEN
+  alternative:
+    model: cohere/north-mini-code:free
+    base_url: https://openrouter.ai/api/v1
+    api_key_env: OPENROUTER_API_KEY
+
+retrieval:
+  model_name: all-MiniLM-L6-v2
+  semantic_top_k: 20
+  keyword_top_k: 20
+  top_k: 5

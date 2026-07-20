@@ -1,4 +1,5 @@
 from langchain_huggingface import HuggingFaceEmbeddings
+from config import config
 
 
 class EmbeddingService:
@@ -6,7 +7,7 @@ class EmbeddingService:
     def __init__(self):
 
         self.embedding_model = HuggingFaceEmbeddings(
-            model_name="BAAI/bge-small-en-v1.5"
+            model_name=config["services"]["embedding_model_name"]
         )
 
     def embed(self, text: str):

@@ -6,8 +6,9 @@ from redisvl.query import VectorQuery
 
 from services.embedding import embedding_service
 from models.cache_schema import CACHE_SCHEMA
+from config import config
 
-REDIS_URL = "redis://localhost:6379"
+REDIS_URL = config["redis"]["url"]
 
 class CacheService:
 

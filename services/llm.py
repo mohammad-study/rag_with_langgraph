@@ -1,23 +1,14 @@
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from config import config
+
 load_dotenv()
 
+llm_config = config["llm"]
 
 llm = ChatOpenAI(
-    model="Qwen/Qwen2.5-7B-Instruct",
-    base_url="https://router.huggingface.co/v1",
-    api_key=os.getenv("HF_TOKEN"),
+    model=llm_config["model"],
+    base_url=llm_config["base_url"],
+    api_key=os.getenv(llm_config["api_key_env"]),
 )
-
-
-
-'''
-llm = ChatOpenAI(
-    model="cohere/north-mini-code:free",
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY"),
-)
-
-#print(llm.invoke("What is the capital of France?"))
-'''

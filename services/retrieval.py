@@ -3,6 +3,7 @@ import chromadb
 
 from .utils import query_knowledge_base
 from .chroma import collection
+from config import config
 
 class RetrievalService:
 
@@ -21,13 +22,15 @@ class RetrievalService:
         top_k: int = 5,
     ):
 
+        retrieval_config = config["retrieval"]
+
         return query_knowledge_base(
             query=question,
             model=self.model,
             collection=self.collection,
             alpha=0.8,
-            semantic_top_k=20,
-            keyword_top_k=20,
+            semantic_top_k=retrieval_config["semantic_top_k"],
+            keyword_top_k=retrieval_config["keyword_top_k"],
             top_k=top_k,
         )
     
@@ -35,6 +38,6 @@ class RetrievalService:
 
 
 retrieval_service = RetrievalService(
-    model=SentenceTransformer("all-MiniLM-L6-v2"),
+    model=SentenceTransformer(config["retrieval"]["model_name"]),
     collection=collection
 )

@@ -1,6 +1,7 @@
 from langchain_redis import RedisChatMessageHistory
+from config import config
 
-REDIS_URL = "redis://localhost:6379"
+REDIS_URL = config["redis"]["url"]
 
 
 class HistoryService:

@@ -1,10 +1,11 @@
 import os
+from pathlib import Path
 
 from preprocess import pre_process_documents
+from config import config, abs_path
 
-
-raw_folder = "C:\\Users\\hassa\\Documents\\Data_Engineering_Project\\rag_with_langgraph\\data\\raw"
-process_folder = "C:\\Users\\hassa\\Documents\\Data_Engineering_Project\\rag_with_langgraph\\data\\processed"
+raw_folder = abs_path(config["ingestion"]["raw_folder"])
+process_folder = abs_path(config["ingestion"]["process_folder"])
 
 if not os.path.exists(process_folder):
     os.makedirs(process_folder)

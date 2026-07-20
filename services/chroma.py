@@ -1,12 +1,13 @@
 import chromadb
+from config import config, abs_path
 
-CHROMA_PATH = "./chroma_db"
-COLLECTION_NAME = "company_documents"
+CHROMA_PATH = abs_path(config["chroma"]["path"])
+COLLECTION_NAME = config["chroma"]["collection_name"]
 
 client = chromadb.PersistentClient(
-    path="./chroma_db"
+    path=str(CHROMA_PATH)
 )
 
 collection = client.get_or_create_collection(
-    name="company_documents"   # use your actual collection name
+    name=COLLECTION_NAME
 )
