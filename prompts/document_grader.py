@@ -13,10 +13,17 @@ Instructions:
 - Do NOT judge factual correctness.
 - Do NOT answer the user's question.
 
-Return:
+Return your response as valid JSON that matches the Pydantic model `DocumentGrade` with this schema:
+{{
+  "relevant": true,
+  "reason": "short explanation"
+}}
 
-- relevant = true if the documents are sufficient.
-- relevant = false otherwise.
+Rules:
+- Output ONLY valid JSON.
+- Set `relevant` to `true` when the documents are sufficient.
+- Set `relevant` to `false` otherwise.
+- Use `reason` to briefly explain the judgment.
 
 Question:
 {question}

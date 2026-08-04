@@ -1,3 +1,4 @@
+import json
 from langchain_core.prompts import ChatPromptTemplate
 
 from prompts.generate import generation_prompt
@@ -13,11 +14,7 @@ def generate_answer(state: GraphState):
         generation_prompt
     )
 
-    structured_llm = llm.with_structured_output(
-        GenerationResponse
-    )
-
-    generation_chain = prompt | structured_llm
+    generation_chain = prompt | llm
 
     context = "\n\n".join(
         f"""
@@ -39,6 +36,32 @@ def generate_answer(state: GraphState):
         }
     )
 
-    state.generation = response.answer
+    content = response.content.strip()
+
+    # Remove markdown fences if present
+    if content.startswith("```"):
+        content = (
+            content.replace("```json", "")
+            .replace("```", "")
+            .strip()
+        )
+
+    try:
+        data = json.loads(content)
+        result = GenerationResponse.model_validate(data)
+
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"LLM returned invalid JSON:\n\n{content}"
+        ) from e
+
+    except Exception as e:
+        raise ValueError(
+            f"LLM response does not match {GenerationResponse.__name__}:\n\n{content}"
+        ) from e
+
+
+
+    state.generation = result.answer
 
     return state

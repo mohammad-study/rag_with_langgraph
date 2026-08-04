@@ -119,8 +119,8 @@ rag_workflow.add_edge("update_cache", END)
 graph = rag_workflow.compile()
 
 result = graph.invoke({
-    "question": "What is company policy about professional conduct",
-    "session_id": "10"
+    "question": "What is company policy say about bullying in the workplace?",
+    "session_id": "11"
 })
 
 print(result)

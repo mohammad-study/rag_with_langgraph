@@ -5,7 +5,7 @@ from config import config
 
 load_dotenv()
 
-llm_config = config["llm"]
+llm_config = config["llm"]["alternative"]
 
 llm = ChatOpenAI(
     model=llm_config["model"],

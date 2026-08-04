@@ -15,6 +15,17 @@ Instructions:
 - Be concise while remaining complete.
 - Use Markdown formatting when appropriate.
 
+Return your response as valid JSON that matches the Pydantic model `GenerationResponse` with this schema:
+{{
+  "answer": "string"
+}}
+
+Rules:
+- Output ONLY valid JSON.
+- Do not wrap the response in Markdown code fences.
+- Do not include any extra commentary.
+- The `answer` field must contain the final answer text.
+
 Chat History:
 {chat_history}
 

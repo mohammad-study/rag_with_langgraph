@@ -13,7 +13,17 @@ Instructions:
 - Keep the rewritten query concise.
 - Do NOT answer the question.
 - Do NOT invent new information.
-- Return only the rewritten query.
+
+Return your response as valid JSON that matches the Pydantic model `QueryRewriteResponse` with this schema:
+{{
+  "rewritten_question": "string"
+}}
+
+Rules:
+- Output ONLY valid JSON.
+- Do not wrap the response in Markdown code fences.
+- Do not include any extra commentary.
+- The `rewritten_question` value must be the rewritten query only.
 
 Chat History:
 {chat_history}

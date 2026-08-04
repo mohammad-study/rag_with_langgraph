@@ -10,19 +10,22 @@ Consider:
 - relevance
 - clarity
 
-Return only
+Return your response as valid JSON that matches the Pydantic model `AnswerGraderResponse` with this schema:
+{{
+  "complete": true,
+  "reason": "short explanation"
+}}
 
-complete
+Rules:
+- Output ONLY valid JSON.
+- Do not include any extra text or markdown.
+- Set `complete` to `true` when the answer fully answers the question.
+- Set `complete` to `false` when the answer is incomplete, incorrect, or irrelevant.
+- Use `reason` to briefly explain your judgment.
 
-or
-
-incomplete
-
-Question
-
+Question:
 {question}
 
-Answer
-
+Answer:
 {generation}
 """

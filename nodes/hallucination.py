@@ -1,10 +1,12 @@
+import json
+
+from langchain_core.prompts import ChatPromptTemplate
+
 from state import GraphState
 from services.llm import llm
 
 from models.hallucination_check import HallucinationCheck
 from prompts.hallucination_grader import hallucination_check_prompt
-
-from langchain_core.prompts import ChatPromptTemplate
 
 
 def hallucination_check(state: GraphState):
@@ -13,11 +15,7 @@ def hallucination_check(state: GraphState):
         hallucination_check_prompt
     )
 
-    structured_llm = llm.with_structured_output(
-        HallucinationCheck
-    )
-
-    hallucination_chain = prompt | structured_llm
+    hallucination_chain = prompt | llm
 
     documents = "\n\n".join(
         doc.chunk
@@ -32,7 +30,31 @@ def hallucination_check(state: GraphState):
         }
     )
 
-    state.grounded = response.grounded
-    state.hallucination_reason = response.reason
+    content = response.content.strip()
+
+    # Remove markdown code fences
+    if content.startswith("```"):
+        content = (
+            content.replace("```json", "")
+            .replace("```", "")
+            .strip()
+        )
+
+    try:
+        data = json.loads(content)
+        result = HallucinationCheck.model_validate(data)
+
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"LLM returned invalid JSON:\n\n{content}"
+        ) from e
+
+    except Exception as e:
+        raise ValueError(
+            f"LLM response does not match {HallucinationCheck.__name__}:\n\n{content}"
+        ) from e
+
+    state.grounded = result.grounded
+    state.hallucination_reason = result.reason
 
     return state

@@ -1,3 +1,4 @@
+import json
 from state import GraphState
 from prompts.direct_generate import direct_generation_prompt
 from langchain_core.prompts import ChatPromptTemplate
@@ -13,11 +14,7 @@ def direct_generate(state: GraphState):
         direct_generation_prompt
     )
 
-    structured_llm = llm.with_structured_output(
-        DirectGenerationResponse
-    )
-
-    direct_generation_chain = prompt | structured_llm
+    direct_generation_chain = prompt | llm
 
 
     response = direct_generation_chain.invoke(
@@ -26,7 +23,21 @@ def direct_generate(state: GraphState):
         }
     )
 
-    state.generation = response.answer
+    content = response.content.strip()
+    
+    try:
+        # Parse JSON
+        data = json.loads(content)
+
+        # Validate with Pydantic
+        result = DirectGenerationResponse.model_validate(data)
+
+    except Exception as e:
+        raise ValueError(
+            f"Invalid GuardrailResponse from LLM:\n\n{content}"
+        ) from e
+
+    state.generation = result.answer
     state.cacheable = False
 
     return state

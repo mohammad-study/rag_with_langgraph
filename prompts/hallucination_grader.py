@@ -12,7 +12,17 @@ Instructions:
 - Minor rewording or summarization is acceptable.
 - If part of the answer is unsupported, return grounded = false.
 
-Return only the structured response.
+Return your response as valid JSON that matches the Pydantic model `HallucinationCheck` with this schema:
+{{
+  "grounded": true,
+  "reason": "short explanation"
+}}
+
+Rules:
+- Output ONLY valid JSON.
+- Set `grounded` to `true` when the answer is fully supported.
+- Set `grounded` to `false` when the answer contains unsupported content.
+- Use `reason` to briefly explain the judgment.
 
 User Question:
 {question}
